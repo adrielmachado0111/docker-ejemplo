@@ -1,0 +1,25 @@
+# Use postgres/example user/password credentials
+# 9090:8080 -> puerto_externo:puerto_interno (el externo es el que le apuntamos en el navegador)
+# depends_on: depende de un contenedor para dar un orden de inicializacion
+version: '3.1'
+
+services:
+
+  db:
+    container_name: postgres # nombre del conenedor customizable
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432 #puertos por defectos
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty
+      POSTGRES_DB: postgres # nombre de la base de datos
+
+  adminer:
+    image: adminer
+    restart: always
+    depends_on: # depende del contenedor db
+      - db
+    ports:
+      - 9090:8080 # puerto_ext : puerto_int
